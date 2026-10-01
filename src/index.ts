@@ -1,6 +1,8 @@
 import SqlPouchCore from './core'
 import type { OpenDatabaseOptions } from './openDatabase'
 
+export { closeAllDBs } from './openDatabase'
+
 function ReactNativeSQLitePouch(
   opts: OpenDatabaseOptions,
   callback: (err: any) => void
