@@ -662,7 +662,9 @@ function SqlPouch(opts: OpenDatabaseOptions, cb: (err: any) => void) {
   }
 
   api._close = (callback: (err?: any) => void) => {
-    closeDB(api._name)
+    // Connections are cached under the SQLite filename (name + '.sqlite'),
+    // not the PouchDB database name.
+    closeDB(sqlOpts.name)
     callback()
   }
 

@@ -41,10 +41,21 @@ function openDB(opts: OpenDatabaseOptions) {
 export function closeDB(name: string) {
   const cachedResult = cachedDatabases.get(name)
   if (cachedResult) {
-    if ('db' in cachedResult) {
-      cachedResult.db.close()
-    }
     cachedDatabases.delete(name)
+    if ('db' in cachedResult) {
+      try {
+        cachedResult.db.close()
+      } catch {
+        // Connection may already be closed or the file may have been replaced.
+      }
+    }
+  }
+}
+
+export function closeAllDBs() {
+  const names = Array.from(cachedDatabases.keys())
+  for (const name of names) {
+    closeDB(name)
   }
 }
 
